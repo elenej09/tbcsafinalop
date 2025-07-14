@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body_class %}regular-page{% endblock %}
+{% block content %}
+<div class="signup-container">
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 10vh;">
+<form method="POST" action="{{ url_for('login') }}">
+  {{ form.hidden_tag() }}
+
+  <div class="mb-3">
+    {{ form.email.label }}
+    {{ form.email(class="form-control", id="ელ.ფოსტა",style="max-width: 500px;") }}
+
+  </div>
+
+  <div class="mb-3">
+    {{ form.password.label }}
+    {{ form.password(class="form-control", id="პაროლი", style="max-width: 500px;") }}
+  </div>
+
+  <button type="submit" class="btn btn-success">გაგრძელება</button>
+<p style="color: black !important; font-weight: bold;">არ გაქვთ აქაუნთი?<a href="{{ url_for('signup') }}">დარეგისტრირდით</a></p>
+</form>
+
+</div>
+</div>
+
+{% endblock %}

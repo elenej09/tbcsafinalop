@@ -1,0 +1,58 @@
+
+{% extends 'base.html' %}
+{% block body_class %}regular-page{% endblock %}
+{% block content %}
+<div class="signup-container">
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+<form method="POST" action="{{ url_for('signup') }}">
+  {{ form.hidden_tag() }}
+
+  <div class="mb-2">
+    {{ form.first_name.label }}
+    {{ form.first_name(class="form-control", placeholder="სახელი", style="max-width: 500px;") }}
+    {{ form.last_name.label }}
+    {{ form.last_name(class="form-control", placeholder="გვარი", style="max-width: 500px;") }}
+  </div>
+   <div class="mb-2">
+    {{ form.username.label }}
+    {{ form.username(class="form-control", placeholder="მომხმარებლის სახელი", style="max-width: 500px;") }}
+   </div>
+  <div class="mb-3">
+    {{ form.email.label }}
+    {{ form.email(class="form-control", id="ელ.ფოსტა" , style="max-width: 500px;") }}
+
+  </div>
+
+  <div class="mb-3">
+    {{ form.password.label }}
+    {{ form.password(class="form-control", id="პაროლი", style="max-width: 500px;" ) }}
+  </div>
+
+  <div class="mb-3">
+    {{ form.gender.label }} <br>
+    {% for subfield in form.gender %}
+      {{ subfield(class="form-check-input") }}
+      {{ subfield.label }}
+    {% endfor %}
+  </div>
+
+  <div class="mb-3">
+    {{ form.birthday.label }}
+    {{ form.birthday(class="form-control", type="date",style="max-width: 250px;") }}
+  </div>
+
+  <div class="mb-3">
+    {{ form.country.label }}
+    {{ form.country(class="form-select",style="max-width: 250px;") }}
+  </div>
+
+
+
+  <button type="submit" class="btn btn-success">გაგრძელება</button>
+
+
+  </form>
+</div>
+</div>
+{% endblock %}

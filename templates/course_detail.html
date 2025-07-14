@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+
+{% block body_class %} course-detail{% endblock %}
+{% block content %}
+
+<div class="course-content-container">
+<h2>{{ course.title }}</h2>
+<img src="{{ url_for('static', filename='course_images/' ~ course.image_file) }}" alt="Course Image" style="width: 100%; max-height: 400px; object-fit: cover;">
+<form action="{{ url_for('favorite_course', course_id=course.id) }}" method="POST" style="display:inline;">
+    {% if course.id in user_fav_course_ids %}
+        <button type="submit" style="border:none; background:none;">
+            <i class="bi bi-star-fill text-warning" style="font-size: 1.5rem;"></i>
+        </button>
+    {% else %}
+        <button type="submit" style="border:none; background:none;">
+            <i class="bi bi-star" style="font-size: 1.5rem;"></i>
+        </button>
+    {% endif %}
+</form>
+
+<p style="color: black !important;">{{ course.description }}</p>
+
+<p style="color: black !important;"><small>აიტვირთა: {{ course.date_posted.strftime('%Y-%m-%d') }}</small></p>
+
+<a href="{{ url_for('courses') }} " class="view-btn">კურსების გვერდზე დაბრუნება</a>
+</div>
+{% endblock %}

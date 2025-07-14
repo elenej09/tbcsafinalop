@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="admin-container">
+  {% for user in users %}
+    <div class="admin-card">
+        <h3 style="color:black !important;">{{ user.username }}</h3>
+        <p style="color:black !important;"><strong>ელ.ფოსტა:</strong> {{ user.email }}</p>
+        <p style="color:black !important;"><strong>როლი:</strong> {{ user.role }}</p>
+
+
+     {% if user.role == 'guest' %}
+
+       <form action="{{ url_for('promote_user', user_id=user.id) }}" method="POST">
+            <button type="submit" class="promote-btn">გახდეს ადმინი</button>
+       </form>
+
+       <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST">
+             <button type="submit" class="delete-btn">მომხმარებლის წაშლა</button>
+        </form>
+
+     {% elif user.role == 'admin' %}
+      {% if current_user.email in admin_emails and user.email not in admin_emails %}
+             <form action="{{ url_for('demote_user', user_id=user.id) }}" method="POST">
+                <button type="submit" class="demote-btn">დაბრუნდეს მომხმარებელი</button>
+             </form>
+      {% else %}
+            <span style="color: black !important;">უკვე ადმინია</span>
+      {% endif %}
+     {% endif %}
+
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

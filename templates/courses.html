@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block extra_styles %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block body_class %}course-page{% endblock %}
+
+{% block content %}
+<h2 class="text-center my-4">კურსები</h2>
+
+{% if current_user.is_authenticated and current_user.role == 'admin' %}
+  <div class="text-center mb-4">
+    <a href="{{ url_for('add_course') }}" class="btn btn-info">კურსის დამატება</a>
+  </div>
+{% endif %}
+
+<div class="container">
+  <div class="row">
+    {% for course in courses %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 position-relative">
+
+          <img src="{{ url_for('static', filename='course_images/' ~ course.image_file) }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ course.title }}">
+
+          <div class="card-body">
+            <h5 class="card-title" style="color:black !important;">{{ course.title }}</h5>
+            <p class="card-text" style="color:black !important;">{{ course.description[:100] }}{{ '...' if course.description|length > 100 }}</p>
+
+
+
+            {% if current_user.is_authenticated %}
+                  <div style="position: absolute; top: 10px; right: 10px;">
+                  <form action="{{ url_for('favorite_course', course_id=course.id) }}" method="POST" >
+             {% if course.id in user_fav_course_ids %}
+                  <button type="submit"  title="Remove from favorites">
+                      <i class="bi bi-star-fill text-warning"></i>
+                  </button>
+             {% else %}
+               <button type="submit"  title="Add to favorites">
+                   <i class="bi bi-star"></i>
+               </button>
+             {% endif %}
+              </form>
+                </div>
+            {% endif %}
+
+
+            <a href="{{ url_for('course_detail', course_id=course.id) }}" class="btn btn-primary mt-2">ნახვა</a>
+
+            {% if current_user.is_authenticated and current_user.role == 'admin' %}
+              <form action="{{ url_for('delete_course', course_id=course.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger mt-2">წაშლა</button>
+              </form>
+            {% endif %}
+            {% if course.price and course.price > 0 %}
+                    <a href="{{ url_for('purchase_course', course_id=course.id) }}" class="btn btn-success mt-2">ყიდვა</a>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
