@@ -1,0 +1,11 @@
+Flask
+Flask-WTF
+Flask-SQLAlchemy
+Flask-Login
+Werkzeug
+WTForms
+
+
+gunicorn
+
+
